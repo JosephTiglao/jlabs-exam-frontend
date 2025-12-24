@@ -190,7 +190,7 @@ function Home() {
         </div>
 
         <div className="map-section">
-          {geo?.loc && (
+          {geo?.loc ? (
             <MapContainer
               center={location}
               zoom={10}
@@ -206,6 +206,19 @@ function Home() {
                 </Popup>
               </Marker>
             </MapContainer>
+          ) : (
+            <div className="map-not-available">
+              <i className="fas fa-triangle-exclamation"></i>
+              <h2>Bogon IP Address</h2>
+              <p>
+                Some IP addresses and IP ranges are reserved for special use,
+                such as for local or private networks, and should not appear on
+                the public internet. These reserved ranges, along with other IP
+                ranges that haven't yet been allocated and therefore also
+                shouldn't appear on the public internet are sometimes known as
+                bogons.
+              </p>
+            </div>
           )}
         </div>
       </div>
