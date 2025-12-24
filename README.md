@@ -30,7 +30,7 @@ https://jlabs-exam-frontend-joseph-tiglaos-projects.vercel.app
 jlabs-exam-frontend/
 ├── src/
 │   ├── components/
-│   │   ├── MapUpdater.jsx
+│   │   └── MapUpdater.jsx
 │   ├── pages/
 │   │   ├── Login.css
 │   │   ├── Login.jsx
