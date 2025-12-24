@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${import.meta.env.REACT_APP_API_URL}/api/login`,
+        `${import.meta.env.VITE_API_URL}/api/login`,
         {
           email,
           password,
@@ -21,7 +21,7 @@ function Login() {
       localStorage.setItem("token", res.data.token);
       navigate("/");
     } catch {
-      alert("Invalid credentials");
+      alert("Login URL broke");
     }
   };
 
