@@ -21,7 +21,7 @@ function Login() {
       localStorage.setItem("token", res.data.token);
       navigate("/");
     } catch {
-      alert("Login URL broke");
+      alert(`Login URL broke: ${import.meta.env.VITE_API_URL}`);
     }
   };
 
