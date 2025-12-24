@@ -133,6 +133,6 @@ http://localhost:5173
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Joseph Tiglao
