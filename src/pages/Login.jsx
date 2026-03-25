@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 import "./Login.css";
 
 function Login() {
@@ -12,16 +13,16 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/login`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/login`,
         {
           email,
           password,
-        }
+        },
       );
       localStorage.setItem("token", res.data.token);
       navigate("/");
     } catch {
-      alert(`Login URL broke: ${import.meta.env.VITE_API_URL}`);
+      alert(`Login URL broke: ${import.meta.env.VITE_BACKEND_BASE_URL}`);
     }
   };
 
@@ -32,7 +33,7 @@ function Login() {
         <div className="decorative-circle circle-2"></div>
 
         <div className="logo">
-          <i className="fas fa-earth-americas"></i>
+          <img src={logo} alt="IP GeoTracker" />
         </div>
 
         <div className="hero-content">
@@ -49,7 +50,7 @@ function Login() {
         <div className="login-container">
           <div className="login-header">
             <div className="login-logo">
-              <i className="fas fa-earth-americas"></i>
+              <img src={logo} alt="IP GeoTracker" />
             </div>
             <h2>IP GeoTracker</h2>
           </div>

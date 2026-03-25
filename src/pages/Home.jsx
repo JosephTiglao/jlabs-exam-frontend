@@ -7,6 +7,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import MapUpdater from "../components/MapUpdater";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 import "./Home.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -22,6 +23,7 @@ function Home() {
   const [ip, setIp] = useState("");
   const [history, setHistory] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,13 +37,19 @@ function Home() {
       setGeo(res.data);
 
       if (addToHistory && targetIp) setHistory((prev) => [...prev, res.data]);
+
+      setHistoryOpen(false);
     } catch (err) {
-      alert("Failed to fetch IP info");
+      alert("Failed to fetch IP info", err);
     }
   };
 
   useEffect(() => {
-    fetchGeo();
+    const loadGeo = async () => {
+      await fetchGeo();
+    };
+
+    loadGeo();
   }, []);
 
   const isValidIP = (value) => /^(\d{1,3}\.){3}\d{1,3}$/.test(value);
@@ -63,7 +71,7 @@ function Home() {
       <div className="header">
         <div className="logo-section">
           <div className="logo-icon">
-            <i className="fas fa-earth-americas"></i>
+            <img src={logo} alt="IP GeoTracker" />
           </div>
           <div className="logo-text">IP GeoTracker</div>
         </div>
@@ -110,6 +118,7 @@ function Home() {
               </button>
             </div>
           </div>
+
           {geo && (
             <div className="results-section">
               <div className="results-header">
@@ -137,7 +146,20 @@ function Home() {
             </div>
           )}
 
-          <div className="history-section">
+          <button
+            className={`history-toggle-btn ${historyOpen ? "open" : ""}`}
+            onClick={() => setHistoryOpen((prev) => !prev)}
+          >
+            <span>
+              Search History
+              {history.length > 0 && (
+                <span className="history-count">{history.length}</span>
+              )}
+            </span>
+            <i className={`fas fa-chevron-down toggle-icon`}></i>
+          </button>
+
+          <div className={`history-section ${historyOpen ? "open" : ""}`}>
             <div className="history-header">
               <h3>Search History</h3>
               <button
@@ -177,7 +199,7 @@ function Home() {
                           setSelected([...selected, h]);
                         } else {
                           setSelected(
-                            selected.filter((item) => item.ip !== h.ip)
+                            selected.filter((item) => item.ip !== h.ip),
                           );
                         }
                       }}
@@ -197,9 +219,7 @@ function Home() {
               style={{ height: "100%", width: "100%" }}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
               <MapUpdater position={location} />
-
               <Marker position={location}>
                 <Popup>
                   {geo.city}, {geo.country}
